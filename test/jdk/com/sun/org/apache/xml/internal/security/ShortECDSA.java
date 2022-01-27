@@ -93,7 +93,7 @@ public class ShortECDSA {
                 System.out.print(String.format(i == 0 ? "%02x" : ":%02x", sig[i]));
             }
             System.out.println();
-            
+
             throw new RuntimeException("Failed");
         }
     }
