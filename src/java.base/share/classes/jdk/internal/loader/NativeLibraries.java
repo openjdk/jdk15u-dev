@@ -34,8 +34,6 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Map;
