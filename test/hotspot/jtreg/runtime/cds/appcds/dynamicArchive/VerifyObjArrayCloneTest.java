@@ -30,14 +30,13 @@
  *          /test/hotspot/jtreg/runtime/cds/appcds/test-classes
  * @build sun.hotspot.WhiteBox
  * @build InvokeCloneValid InvokeCloneInvalid VerifyObjArrayCloneTestApp
- * @run driver jdk.test.lib.helpers.ClassFileInstaller -jar app.jar VerifyObjArrayCloneTestApp
- * @run driver jdk.test.lib.helpers.ClassFileInstaller -jar tests.jar InvokeCloneValid InvokeCloneInvalid
- * @run driver jdk.test.lib.helpers.ClassFileInstaller -jar WhiteBox.jar sun.hotspot.WhiteBox
+ * @run driver ClassFileInstaller -jar app.jar VerifyObjArrayCloneTestApp
+ * @run driver ClassFileInstaller -jar tests.jar InvokeCloneValid InvokeCloneInvalid
+ * @run driver ClassFileInstaller -jar WhiteBox.jar sun.hotspot.WhiteBox
  * @run main/othervm -XX:+UnlockDiagnosticVMOptions -XX:+WhiteBoxAPI -Xbootclasspath/a:./WhiteBox.jar VerifyObjArrayCloneTest
  */
 
 import java.io.File;
-import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class VerifyObjArrayCloneTest extends DynamicArchiveTestBase {
     private static String appJar = ClassFileInstaller.getJarPath("app.jar");

@@ -27,14 +27,13 @@
  * @requires vm.cds
  * @library /test/lib /test/hotspot/jtreg/runtime/verifier /test/hotspot/jtreg/runtime/cds/appcds/test-classes
  * @build InvokeCloneValid InvokeCloneInvalid VerifyObjArrayCloneTestApp
- * @run driver jdk.test.lib.helpers.ClassFileInstaller -jar app.jar VerifyObjArrayCloneTestApp
- * @run driver jdk.test.lib.helpers.ClassFileInstaller -jar tests.jar InvokeCloneValid InvokeCloneInvalid
+ * @run driver ClassFileInstaller -jar app.jar VerifyObjArrayCloneTestApp
+ * @run driver ClassFileInstaller -jar tests.jar InvokeCloneValid InvokeCloneInvalid
  * @run driver VerifyObjArrayCloneTest
  */
 
 import java.io.File;
 import jdk.test.lib.Platform;
-import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class VerifyObjArrayCloneTest {
     private static String appJar = ClassFileInstaller.getJarPath("app.jar");
