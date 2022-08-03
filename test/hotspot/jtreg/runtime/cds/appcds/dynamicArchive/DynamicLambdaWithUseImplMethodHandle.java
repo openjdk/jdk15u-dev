@@ -32,12 +32,10 @@
  * @build pkg2.Child
  * @build LambdaWithUseImplMethodHandleApp
  * @build sun.hotspot.WhiteBox
- * @run driver jdk.test.lib.helpers.ClassFileInstaller -jar test.jar pkg1.BaseWithProtectedMethod pkg2.Child LambdaWithUseImplMethodHandleApp
- * @run driver jdk.test.lib.helpers.ClassFileInstaller sun.hotspot.WhiteBox
+ * @run driver ClassFileInstaller -jar test.jar pkg1.BaseWithProtectedMethod pkg2.Child LambdaWithUseImplMethodHandleApp
+ * @run driver ClassFileInstaller sun.hotspot.WhiteBox
  * @run main/othervm -XX:+UnlockDiagnosticVMOptions -XX:+WhiteBoxAPI -Xbootclasspath/a:. DynamicLambdaWithUseImplMethodHandle
  */
-
-import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class DynamicLambdaWithUseImplMethodHandle extends DynamicArchiveTestBase {
 

@@ -31,13 +31,12 @@
  * @build pkg1.BaseWithProtectedMethod
  * @build pkg2.Child
  * @build LambdaWithUseImplMethodHandleApp
- * @run driver jdk.test.lib.helpers.ClassFileInstaller -jar test.jar pkg1.BaseWithProtectedMethod pkg2.Child LambdaWithUseImplMethodHandleApp
+ * @run driver ClassFileInstaller -jar test.jar pkg1.BaseWithProtectedMethod pkg2.Child LambdaWithUseImplMethodHandleApp
  * @run driver LambdaWithUseImplMethodHandle
  */
 
 import jdk.test.lib.cds.CDSOptions;
 import jdk.test.lib.cds.CDSTestUtils;
-import jdk.test.lib.helpers.ClassFileInstaller;
 
 public class LambdaWithUseImplMethodHandle {
 
