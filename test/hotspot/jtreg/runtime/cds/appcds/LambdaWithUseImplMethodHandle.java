@@ -49,7 +49,12 @@ public class LambdaWithUseImplMethodHandle {
         String archiveName = TestCommon.getNewArchiveName();
 
         // dump class list
-        CDSTestUtils.dumpClassList(classList, "-cp", appJar, mainClass);
+        CDSOptions dumpOpts = (new CDSOptions())
+            .setUseVersion(false)
+            .setXShareMode("auto")
+            .addPrefix("-XX:DumpLoadedClassList=" + classList)
+            .addSuffix("-cp", appJar, mainClass);
+        CDSTestUtils.run(dumpOpts).assertNormalExit();
 
         // create archive with the class list
         CDSOptions opts = (new CDSOptions())
