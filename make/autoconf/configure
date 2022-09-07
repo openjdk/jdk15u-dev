@@ -141,7 +141,7 @@ generate_configure_script() {
   # Call autoconf but replace the "magic" variable in configure.ac if requested.
 
   cat $conf_script_dir/configure.ac | eval $custom_patcher | \
-      ${AUTOCONF} -W all $custom_script_dir_include -I$conf_script_dir - \
+      ${AUTOCONF} -W all --verbose $custom_script_dir_include -I$conf_script_dir - \
       > $generated_script
   rm -rf autom4te.cache
 
