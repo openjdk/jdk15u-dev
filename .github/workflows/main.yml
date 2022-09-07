@@ -35,7 +35,8 @@ on:
       platforms:
         description: 'Platform(s) to execute on (comma separated, e.g. "linux-x64, macos, aarch64")'
         required: true
-        default: 'linux-x64, linux-x86, linux-x64-variants, linux-cross-compile, macos-x64, macos-aarch64, windows-x64, windows-aarch64'
+        #        default: 'linux-x64, linux-x86, linux-x64-variants, linux-cross-compile, macos-x64, macos-aarch64, windows-x64, windows-aarch64'
+        default: 'windows-x64'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -225,6 +226,7 @@ jobs:
       platform: windows-x64
       msvc-toolset-version: '14.25'
       msvc-toolset-architecture: 'x86.x64'
+      extra-conf-options: '--debug-configure'
     if: needs.select.outputs.windows-x64 == 'true'
 
   build-windows-aarch64:
