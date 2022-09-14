@@ -1,12 +1,10 @@
 #
-# Copyright (c) 2012, 2015, Oracle and/or its affiliates. All rights reserved.
+# Copyright (c) 2008, 2022, Oracle and/or its affiliates. All rights reserved.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
 # This code is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# published by the Free Software Foundation.
 #
 # This code is distributed in the hope that it will be useful, but WITHOUT
 # ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
@@ -23,42 +21,38 @@
 # questions.
 #
 
-###
-### This file is just a very small wrapper needed to run the real make/Init.gmk.
-### It also performs some sanity checks on make.
-###
+#
+#
+# This makefile is used to update the time zone tests data: aliases.txt displaynames.txt
+# and VERSION. After switching to new build system in JDK8 the following make
+# command should be used for test data updates:
+#     make JDK_HOME=<path to built JDK with latest tzdata>
+#     make install
+#
 
-# The shell code below will be executed on /usr/bin/make on Solaris, but not in GNU Make.
-# /usr/bin/make lacks basically every other flow control mechanism.
-.TEST_FOR_NON_GNUMAKE:sh=echo You are not using GNU Make/gmake, this is a requirement. Check your path. 1>&2 && exit 1
+TZDATA = ../../../../../../../make/data/tzdata
+TZDATA_VER = `grep '^tzdata' $(TZDATA)/VERSION`
+TZNAME = africa antarctica asia australasia europe northamerica \
+	solar87 solar88 solar89 southamerica \
+	backward
+TZFILES = $(addprefix $(TZDATA)/, $(TZNAME))
+ALIASLIST = aliases.txt
+DISPLAYNAMES = displaynames.txt
 
-# The .FEATURES variable is likely to be unique for GNU Make.
-ifeq ($(.FEATURES), )
-  $(info Error: '$(MAKE)' does not seem to be GNU Make, which is a requirement.)
-  $(info Check your path, or upgrade to GNU Make 3.81 or newer.)
-  $(error Cannot continue)
-endif
+all:	$(DISPLAYNAMES) VERSION $(ALIASLIST)
 
-# Assume we have GNU Make, but check version.
-ifeq ($(strip $(foreach v, 3.81% 3.82% 4.%, $(filter $v, $(MAKE_VERSION)))), )
-  $(info Error: This version of GNU Make is too low ($(MAKE_VERSION)).)
-  $(info Check your path, or upgrade to GNU Make 3.81 or newer.)
-  $(error Cannot continue)
-endif
+$(DISPLAYNAMES): $(TZFILES) makeZoneData.pl
+	(cat $(TZFILES) | perl makeZoneData.pl -v -V "$(TZDATA_VER)") 2>errors
 
-# In Cygwin, the MAKE variable gets prepended with the current directory if the
-# make executable is called using a Windows mixed path (c:/cygwin/bin/make.exe).
-ifneq ($(findstring :, $(MAKE)), )
-  MAKE := $(patsubst $(CURDIR)%, %, $(patsubst $(CURDIR)/%, %, $(MAKE)))
-endif
+VERSION: $(TZDATA)/VERSION
+	echo "$(TZDATA_VER)" > VERSION
 
-# Locate this Makefile
-ifeq ($(filter /%, $(lastword $(MAKEFILE_LIST))),)
-  makefile_path := $(CURDIR)/$(strip $(lastword $(MAKEFILE_LIST)))
-else
-  makefile_path := $(lastword $(MAKEFILE_LIST))
-endif
-topdir := $(strip $(patsubst %/, %, $(dir $(makefile_path))))
+$(ALIASLIST): $(TZFILES)
+	rm -f $(ALIASLIST)
+	grep -h "^Link" $(TZFILES) >> $(ALIASLIST)
 
-# ... and then we can include the real makefile
-include $(topdir)/make/Init.gmk
+clean:
+	rm -f $(DISPLAYNAMES) errors year???? VERSION $(ALIASLIST)
+
+install:
+	cp $(ALIASLIST) $(DISPLAYNAMES) VERSION ../../TimeZoneData/
